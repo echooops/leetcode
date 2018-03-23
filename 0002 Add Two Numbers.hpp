@@ -14,7 +14,7 @@
 // 这种全局执行函数，纯粹是为了刷排名
 static auto _______ = []() {
     std::ios::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
     return nullptr;
 }();
 
