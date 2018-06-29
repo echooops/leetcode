@@ -17,6 +17,7 @@
 */
 #include <iostream>
 #include <vector>
+#include <stack>
 
 using namespace std;
 // 这种全局执行函数，纯粹是为了刷排名
@@ -28,6 +29,24 @@ static auto _______ = []() {
 
 class Solution {
 public:
+    // 使用栈 (虽然不容易理解，但是思路很好)
+    int traps(vector<int>& height) {
+        int ans = 0, current = 0;
+        stack<int> st;
+        while (current < height.size()) {
+            while (!st.empty() && height[current] > height[st.top()]) {
+                int top = st.top();
+                st.pop();
+                if (st.empty())
+                    break;
+                int distance = current - st.top() - 1;
+                int bounded_height = min(height[current], height[st.top()]) - height[top];
+                ans += distance * bounded_height;
+            }
+            st.push(current++);
+        }
+        return ans;
+    }
     // 从两边向中间逼近并保存值
     int trap(vector<int>& height) {
 
