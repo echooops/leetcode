@@ -4,14 +4,25 @@
   给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。
 */
 
-static auto x = []() { std::ios::sync_with_stdio(false); std::cin.tie(nullptr); return nullptr; }();
-// 动态规划 偷或者不偷
-// 到第i家偷:i-2家之前最大所得加本次所得。不偷:保持i-1家之前所得。
-// dp[i] = max(dp[i-1], dp[i-2] + menoy)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+static auto x = []() { ios::sync_with_stdio(false); cin.tie(nullptr); return nullptr; }();
+
+/*
+  状态定义：
+  设动态规划列表dp，dp[i]代表前i个房子在满足条件下的能偷窃到的最高金额。
+  转移方程：
+  dp[i] = dp[i - 1] (不偷)
+  dp[i] = dp[i - 2] + nums[i] (偷)
+  dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]) (偷或者不偷)
+*/
+
 class Solution {
 public:
     // 减少多余变量
-    int rob(vector<int>& nums) {
+    int rob(vector<int>&& nums) {
         if (nums.size() == 0) return 0;
         int last[3] = {0};      // 1 上一个 2 上上一个 0 交换数据
         last[1] = nums[0];
@@ -22,8 +33,8 @@ public:
         }
         return last[1];
     }
-    
-    int _rob(vector<int>& nums) {
+
+    int _rob(vector<int>&& nums) {
         vector<int> dp(nums.size() + 1 , 0);
         if (nums.size() == 0) return 0;
         dp[1] = nums[0];
@@ -32,3 +43,10 @@ public:
         return dp[nums.size()];
     }
 };
+
+int main(int argc, char *argv[])
+{
+    Solution s;
+    cout << s.rob({1, 2, 3, 4, 5}) << "\n";
+    return 0;
+}
