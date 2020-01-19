@@ -28,9 +28,9 @@ class Solution:
     def rob(self, nums: List[int]) -> int:
         '''
         分析上面过程，发现：
-        下一次获利 = 最大值（当前获利， 上一次获利 + 本次利益）
-        cur : 为当前获利
-        pre : 为上一次获利
+        下一次总获利 = MAX(当前总获利, 上一次总获利 + 下一次利益)
+        cur : 为当前总获利
+        pre : 为上一次总获利
         '''
         cur, pre = 0, 0
         for num in nums:
