@@ -68,9 +68,39 @@ class Solution:
             res = dp(K - 1, T - 1) + dp(K, T - 1)
             memo[(K, T)] = res
             return res
-
+        # T = int(math.log(N, 2)) 实际次数不会低于 logN，所以可以从这个点开始测
         T = 1
         while dp(K, T) <= N :
             # 依次累加测试机会
             T += 1
         return T
+
+    def superEggDrop(self, K: int, N: int) -> int:
+        '''
+        自下而上，不断迭代
+        dp[K][T] = dp[K][T - 1] + dp[K - 1][T - 1] + 1
+        '''
+        if K < 1 : return 0
+        dp = [[0] * (N + 1) for i in range(K + 1)]
+        m = 0
+        while dp[K][m] < N :
+            m += 1
+            # 这次扔，依赖于上一次扔的结果
+            for k in range(1, K + 1) :
+                dp[k][m] = dp[k][m - 1] + dp[k - 1][m - 1] + 1
+        return m
+
+    def superEggDrop(self, K: int, N: int) -> int:
+        '''
+        分析上面代码，优化存储空间。
+        '''
+        if K < 1 : return 0
+        dp = [0] * (K + 1)
+        m = 0
+        while dp[K] < N :
+            m += 1
+            # k 使用倒序遍历, 是为了节省上一次结果的存储空间
+            for k in range(K, 0, -1) :
+                dp[k] = dp[k] + dp[k - 1] + 1
+        return m
+
